@@ -1,0 +1,21 @@
+const UNAUTHORIZED_ERROR = 401;
+const FORBIDDEN_ERROR = 403;
+const ERROR_NOT_FOUND = 404;
+const CONFLICT_ERROR = 409;
+const BAD_REQUEST_ERROR = 400;
+const INTERNAL_SERVER_ERROR = 500;
+const SUCCES_ADDED_STATUS = 201;
+
+const REGEXP_URL =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+module.exports = {
+  UNAUTHORIZED_ERROR,
+  ERROR_NOT_FOUND,
+  FORBIDDEN_ERROR,
+  CONFLICT_ERROR,
+  BAD_REQUEST_ERROR,
+  INTERNAL_SERVER_ERROR,
+  SUCCES_ADDED_STATUS,
+  REGEXP_URL
+};
