@@ -9,35 +9,33 @@ const { JWT_CODE } = require('../utils/config');
 module.exports.createUser = (req, res, next) => {
   const { name, email, password } = req.body;
   bcrypt.hash(password, 10)
-    .then((hashCode) =>
-      User.create({ name, email, password: hashCode })
-        .then((user) => res.status(SUCCES_ADDED_STATUS).send(user))
-        .catch((err) => {
-          if (err.code === 11000) {
-            next(new ConflictError('Пользователь с данным email уже существует'));
-          } else {
-            next(err)
-          }
-        })
-    )
+    .then((hashCode) => User.create({ name, email, password: hashCode })
+      .then((user) => res.status(SUCCES_ADDED_STATUS).send(user))
+      .catch((err) => {
+        if (err.code === 11000) {
+          next(new ConflictError('Пользователь с данным email уже существует'));
+        } else {
+          next(err);
+        }
+      }))
     .catch(next);
 };
 
-function getUserById (_id, res, next) {
+function getUserById(_id, res, next) {
   User.findById({ _id })
     .then((user) => {
       if (user) {
-        res.send(user);  
+        res.send(user);
       } else {
-        notFoundError();  
-      } 
+        notFoundError();
+      }
     })
-    .catch(next);  
+    .catch(next);
 }
 
 module.exports.getUserData = (req, res, next) => {
   const { _id } = req.user;
-  getUserById(_id, res, next);  
+  getUserById(_id, res, next);
 };
 
 module.exports.getUserId = (req, res, next) => {
@@ -45,7 +43,7 @@ module.exports.getUserId = (req, res, next) => {
   getUserById(_id, res, next);
 };
 
-function updateUserData (req, res, next, dataToUpdate) {
+function updateUserData(req, res, next, dataToUpdate) {
   const { _id } = req.user;
   User.findByIdAndUpdate(_id, dataToUpdate, {
     new: true,
@@ -59,8 +57,8 @@ function updateUserData (req, res, next, dataToUpdate) {
       }
     })
     .catch(next);
-  }
-  
+}
+
 module.exports.updateUserInfo = (req, res, next) => {
   const { name, email } = req.body;
   const dataToUpdate = { name, email };
@@ -68,16 +66,15 @@ module.exports.updateUserInfo = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-    const { email, password } = req.body;
-      User.findUserByCredentials(email, password)
-        .then((user) => {
-          const token = jwt.sign({ _id: user._id }, JWT_CODE, { expiresIn: "7d" });
-          res.send({ token });
-        })
-        .catch(next);
-    };
+  const { email, password } = req.body;
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_CODE, { expiresIn: '7d' });
+      res.send({ token });
+    })
+    .catch(next);
+};
 
 module.exports.logout = (req, res) => {
   res.clearCookie('token').send({ message: 'Вы вышли' });
 };
-  

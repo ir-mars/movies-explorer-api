@@ -1,6 +1,6 @@
 const Movie = require('../models/movie');
 const { ForbiddenError } = require('../errors/ForbiddenError');
-//const { ConflictError } = require('../errors/ConflictError');
+// const { ConflictError } = require('../errors/ConflictError');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { SUCCES_ADDED_STATUS } = require('../utils/constants');
 
@@ -8,7 +8,7 @@ module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .populate(['owner', 'user'])
     .then((cards) => res.send(cards))
-    .catch(next);  
+    .catch(next);
 };
 
 module.exports.createMovie = (req, res, next) => {
@@ -24,7 +24,7 @@ module.exports.createMovie = (req, res, next) => {
     thumbnail,
     nameRU,
     nameEN,
-    movieId
+    movieId,
   } = req.body;
   Movie.create({
     country,
@@ -38,32 +38,32 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     movieId,
-    owner: ownerId  
+    owner: ownerId,
   })
     .then((card) => card.populate('owner'))
     .then((card) => res.status(SUCCES_ADDED_STATUS).send(card))
-    .catch(next);  
+    .catch(next);
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
-    .populate([{ model: 'user', path: 'owner'}])
+    .populate([{ model: 'user', path: 'owner' }])
     .then((deletedCard) => {
-        if (!deletedCard) {
-          throw new NotFoundError('Карточка фильма не найдена');
-        }
-        if (deletedCard.owner._id.toString() !== req.user._id.toString()) {
-          throw new ForbiddenError('Нельзя удалить карточку фильма, созданную не вами');
-        }
-        return deletedCard.deleteOne()
-          .then((card) => {
-            if (card) {
-              res.send(card);
-            } else {
-              notFoundError();
-            }
-          })
-          .catch(next);
-      })
-    .catch(next);    
+      if (!deletedCard) {
+        throw new NotFoundError('Карточка фильма не найдена');
+      }
+      if (deletedCard.owner._id.toString() !== req.user._id.toString()) {
+        throw new ForbiddenError('Нельзя удалить карточку фильма, созданную не вами');
+      }
+      return deletedCard.deleteOne()
+        .then((card) => {
+          if (card) {
+            res.send(card);
+          } else {
+            notFoundError();
+          }
+        })
+        .catch(next);
+    })
+    .catch(next);
 };

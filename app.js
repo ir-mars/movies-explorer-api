@@ -30,10 +30,10 @@ app.use(errorLogger);
 app.use(errors());
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, _next) => {
-  errorHandler(err, res, next);
+  errorHandler(err, res);
 });
 
 app.listen(PORT, () => {
-  console.log("Ссылка на сервер");
+  console.log('Ссылка на сервер');
   console.log(`${BASE_PATH}:${PORT}`);
 });

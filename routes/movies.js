@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const {
   validateMovie,
-  validateMovieById  
+  validateMovieById,
 } = require('../validate/movieValidate');
 const {
   getMovies,
   createMovie,
-  deleteMovie  
+  deleteMovie,
 } = require('../controllers/movie');
 
 router.get('/', getMovies);

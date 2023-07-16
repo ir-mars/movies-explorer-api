@@ -1,26 +1,27 @@
 const mongoose = require('mongoose');
-const { NotFoundError } = require('../errors/NotFoundError'); //404
-const { ForbiddenError } = require('../errors/ForbiddenError'); //403
-const { UnauthorizedError } = require('../errors/UnauthorizedError'); //401
-const { ConflictError } = require('../errors/ConflictError'); //409
+const { NotFoundError } = require('../errors/NotFoundError'); // 404
+const { ForbiddenError } = require('../errors/ForbiddenError'); // 403
+const { UnauthorizedError } = require('../errors/UnauthorizedError'); // 401
+const { ConflictError } = require('../errors/ConflictError');
+// 409
 const { CastError, ValidationError } = mongoose.Error;
 
 const {
-  BAD_REQUEST_ERROR, //400
-  INTERNAL_SERVER_ERROR, //500
+  BAD_REQUEST_ERROR, // 400
+  INTERNAL_SERVER_ERROR, // 500
 } = require('../utils/constants');
 
-function errorHandler (error, response) {
+function errorHandler(error, response) {
   if (error instanceof CastError || error instanceof ValidationError) {
     return response
       .status(BAD_REQUEST_ERROR)
       .send({ message: 'Переданы некорректные данные' });
   }
   if (
-    error instanceof NotFoundError ||
-    error instanceof UnauthorizedError ||
-    error instanceof ForbiddenError ||
-    error instanceof ConflictError
+    error instanceof NotFoundError
+    || error instanceof UnauthorizedError
+    || error instanceof ForbiddenError
+    || error instanceof ConflictError
   ) {
     const { message, statusCode } = error;
     return response.status(statusCode).send({ message });

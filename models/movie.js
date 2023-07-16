@@ -3,21 +3,21 @@ const { REGEXP_URL } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema(
   {
-    country:{
+    country: {
       type: String,
-      required: true,  
+      required: true,
     },
     director: {
       type: String,
-      required: true,  
+      required: true,
     },
     duration: {
       type: Number,
-      required: true,  
+      required: true,
     },
     year: {
       type: String,
-      required: true,  
+      required: true,
     },
     description: {
       type: String,
@@ -27,60 +27,61 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator (url) {
-          return REGEXP_URL.test(url);  
+        validator(url) {
+          return REGEXP_URL.test(url);
         },
-        message ({ value }) {
+        message({ value }) {
           return `${value} - некорректный адрес URL`;
-        },  
+        },
       },
     },
     trailerLink: {
       type: String,
       required: true,
       validate: {
-        validator (url) {
-          return REGEXP_URL.test(url);  
+        validator(url) {
+          return REGEXP_URL.test(url);
         },
-        message ({ value }) {
+        message({ value }) {
           return `${value} - некорректный адрес URL`;
-        },  
-      },  
+        },
+      },
     },
     thumbnail: {
       type: String,
       required: true,
       validate: {
-        validator (url) {
-          return REGEXP_URL.test(url);  
+        validator(url) {
+          return REGEXP_URL.test(url);
         },
-        message ({ value }) {
+        message({ value }) {
           return `${value} - некорректный адрес URL`;
-        },  
-      },  
+        },
+      },
     },
     nameRU: {
       type: String,
-      required: true,  
+      required: true,
     },
     nameEN: {
       type: String,
-      required: true,  
+      required: true,
     },
     movieId: {
       type: Number,
       required: true,
-      unique: false,  
+      unique: false,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'user',  
+      ref: 'user',
     },
   },
-{ toJSON: { useProjection: true },
-  toObject: { useProjection: true}
-}
+  {
+    toJSON: { useProjection: true },
+    toObject: { useProjection: true },
+  },
 );
 
 module.exports = mongoose.model('movie', movieSchema);

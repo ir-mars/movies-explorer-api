@@ -14,7 +14,7 @@ router.post('/signout', logout);
 router.use('/users', routerUsers);
 router.use('/movies', routerMovies);
 router.use('*', (req, res, next) => {
-  next(new NotFoundError('По указанному вами адресу ничего не найдено'), res)
+  next(new NotFoundError('По указанному вами адресу ничего не найдено'), res);
 });
 
 module.exports = router;

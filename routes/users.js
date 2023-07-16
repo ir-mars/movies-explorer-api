@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const {
-    validateUserInfo
+  validateUserInfo,
 } = require('../validate/userValidate');
 const {
-    getUser,
-    updateUser,
+  getUser,
+  updateUser,
 } = require('../controllers/users');
 
 router.get('/me', getUser);

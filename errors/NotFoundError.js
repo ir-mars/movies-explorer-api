@@ -1,4 +1,4 @@
-const { NOT_FOUND_ERROR } = require('../utils/constants'); //404
+const { NOT_FOUND_ERROR } = require('../utils/constants'); // 404
 
 class NotFoundError extends Error {
   constructor(message = 'Ничего не найдено') {
@@ -7,5 +7,5 @@ class NotFoundError extends Error {
   }
 }
 module.exports = {
-  NotFoundError
+  NotFoundError,
 };
