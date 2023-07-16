@@ -33,15 +33,15 @@ function getUserById(_id, res, next) {
     .catch(next);
 }
 
-module.exports.getUserData = (req, res, next) => {
+module.exports.getUser = (req, res, next) => {
   const { _id } = req.user;
   getUserById(_id, res, next);
 };
-
+/*
 module.exports.getUserId = (req, res, next) => {
   const _id = req.params.id;
   getUserById(_id, res, next);
-};
+};*/
 
 function updateUserData(req, res, next, dataToUpdate) {
   const { _id } = req.user;
@@ -59,7 +59,7 @@ function updateUserData(req, res, next, dataToUpdate) {
     .catch(next);
 }
 
-module.exports.updateUserInfo = (req, res, next) => {
+module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
   const dataToUpdate = { name, email };
   updateUserData(req, res, next, dataToUpdate);
