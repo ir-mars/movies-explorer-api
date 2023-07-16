@@ -2,7 +2,7 @@ const router = require('express').Router();
 const routerUsers = require('./users');
 const routerMovies = require('./movies');
 const { login, createUser, logout } = require('../controllers/users');
-const { validateLogin, validateRegister } = require('../utils/validate/userValidate');
+const { validateLogin, validateRegister } = require('../validate/userValidate');
 const auth = require('../middlewares/auth');
 
 const { NotFoundError } = require('../errors/NotFoundError');
