@@ -5,7 +5,7 @@ const {
 const {
     getUser,
     updateUser,
-} = require();
+} = require('../controllers/users');
 
 router.get('/me', getUser);
 router.patch('/me', validateUserInfo, updateUser);

@@ -11,7 +11,6 @@ const {
 } = require('../utils/constants');
 
 function errorHandler (error, response) {
-  
   if (error instanceof CastError || error instanceof ValidationError) {
     return response
       .status(BAD_REQUEST_ERROR)
@@ -31,7 +30,7 @@ function errorHandler (error, response) {
     .send({ message: 'Произошла ошибка сервера' });
 }
 
-function notFoundError () {
+function notFoundError() {
   throw new NotFoundError();
 }
 module.exports = {

@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { notFoundError } = require('../utils/errorHandler');
+const { notFoundError } = require('../middlewares/errorHandler');
 const { ConflictError } = require('../errors/ConflictError');
 const { SUCCES_ADDED_STATUS } = require('../utils/constants');
-const { JWT_CODE } = require('../config');
+const { JWT_CODE } = require('../utils/config');
 
 module.exports.createUser = (req, res, next) => {
   const { name, email, password } = req.body;
@@ -67,10 +67,6 @@ module.exports.updateUserInfo = (req, res, next) => {
   updateUserData(req, res, next, dataToUpdate);
 };
 
-function generateToken (res, user) {
-  const token = jwt.sign({ _id: user._id }, JWT_CODE, { expiresIn: "7d" });  
-}
-
 module.exports.login = (req, res, next) => {
     const { email, password } = req.body;
       User.findUserByCredentials(email, password)
@@ -81,27 +77,7 @@ module.exports.login = (req, res, next) => {
         .catch(next);
     };
 
-    module.exports.login = (req, res, next) => {
-        const { email, password } = req.body;
-        User.findUserByCredentials(email, password)
-          .then((user) => {
-            const token = jwt.sign(
-              { _id: user._id },
-              NODE_ENV === MODE_PRODUCTION ? SECRET_KEY : DEV_KEY,
-              { expiresIn: '7d' },
-            );
-            res
-              .cookie('jwt', token, {
-                maxAge: 3600000 * 24 * 7,
-                httpOnly: true,
-                sameSite: true,
-              })
-              .send({ message: 'Вы успешно авторизованы' });
-          })
-          .catch(next);
-      };
-
-    module.exports.logout = (req, res) => {
-        res.clearCookie('token').send({ message: 'Вы вышли' });
-      };
+module.exports.logout = (req, res) => {
+  res.clearCookie('token').send({ message: 'Вы вышли' });
+};
   
