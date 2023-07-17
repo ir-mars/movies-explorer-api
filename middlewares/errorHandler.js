@@ -12,7 +12,7 @@ const {
 } = require('../utils/constants');
 
 function errorHandler(error, response) {
-  console.log(error)
+  console.log(error);
   if (error instanceof CastError || error instanceof ValidationError) {
     return response
       .status(BAD_REQUEST_ERROR)

@@ -1,13 +1,13 @@
 const Movie = require('../models/movie');
 const { ForbiddenError } = require('../errors/ForbiddenError');
-// const { ConflictError } = require('../errors/ConflictError');
+const { notFoundError } = require('../middlewares/errorHandler');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { SUCCES_ADDED_STATUS } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
   const owner = req.user._id;
   Movie.find({ owner })
-    /*.populate([{ path: 'owner', model: 'user' }])*/
+    /* .populate([{ path: 'owner', model: 'user' }]) */
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -26,7 +26,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     movieId,
-  } = req.body; 
+  } = req.body;
   Movie.create({
     country,
     director,
