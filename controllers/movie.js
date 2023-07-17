@@ -5,8 +5,9 @@ const { NotFoundError } = require('../errors/NotFoundError');
 const { SUCCES_ADDED_STATUS } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
-    .populate(['owner', 'user'])
+  const owner = req.user._id;
+  Movie.find({ owner })
+    /*.populate([{ path: 'owner', model: 'user' }])*/
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -25,7 +26,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     movieId,
-  } = req.body;
+  } = req.body; 
   Movie.create({
     country,
     director,
@@ -46,8 +47,8 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.id)
-    .populate([{ model: 'user', path: 'owner' }])
+  Movie.findById(req.params.movieId)
+    // .populate([{ model: 'user', path: 'owner' }])
     .then((deletedCard) => {
       if (!deletedCard) {
         throw new NotFoundError('Карточка фильма не найдена');

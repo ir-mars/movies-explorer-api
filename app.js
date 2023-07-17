@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const routes = require('./routes/index');
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -12,6 +13,7 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const { limiter } = require('./middlewares/limiter');
 
 const app = express();
+app.use(limiter);
 
 mongoose.connect(DATABASE, {
   useNewUrlParser: true,
@@ -21,8 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(helmet());
 app.use(cors);
-app.use(limiter);
 app.use(requestLogger);
 
 app.use(routes);

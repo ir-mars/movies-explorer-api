@@ -37,13 +37,10 @@ module.exports.getUser = (req, res, next) => {
   const { _id } = req.user;
   getUserById(_id, res, next);
 };
-/*
-module.exports.getUserId = (req, res, next) => {
-  const _id = req.params.id;
-  getUserById(_id, res, next);
-};*/
 
-function updateUserData(req, res, next, dataToUpdate) {
+module.exports.updateUser = (req, res, next) => {
+  const { name, email } = req.body;
+  const dataToUpdate = { name, email };
   const { _id } = req.user;
   User.findByIdAndUpdate(_id, dataToUpdate, {
     new: true,
@@ -57,12 +54,6 @@ function updateUserData(req, res, next, dataToUpdate) {
       }
     })
     .catch(next);
-}
-
-module.exports.updateUser = (req, res, next) => {
-  const { name, email } = req.body;
-  const dataToUpdate = { name, email };
-  updateUserData(req, res, next, dataToUpdate);
 };
 
 module.exports.login = (req, res, next) => {
